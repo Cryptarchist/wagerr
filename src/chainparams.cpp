@@ -308,8 +308,8 @@ public:
         vOracleWalletAddrs = {"TGFKr64W3tTMLZrKBhMAou9wnQmdNMrSG2",     // Oracle Masternode Event & Result Posting Wallet Address (Testnet).
                               "TWM5BQzfjDkBLGbcDtydfuNcuPfzPVSEhc" };
         nBetBlocksIndexTimespan = 23040;                                // Currently checking back 2 weeks for events and bets for each result. (With approx. 2 days buffer).
-        strDevPayoutAddr = "TLceyDrdPLBu8DK6UZjKu4vCDUQBGPybcY";        // Development fund payout address (Testnet).
-        strOMNOPayoutAddr = "TDunmyDASGDjYwhTF3SeDLsnDweyEBpfnP";       // OMNO fund payout address (Testnet).
+        strDevPayoutAddr = "TDQXejQbXKsoTws6mu6hk3tMep4mwC6xKx";        // Development fund payout address (Testnet).
+        strOMNOPayoutAddr = "TUdYUdQi1sbULKXjgvj4ByHjmhVvyT7xWx";       // OMNO fund payout address (Testnet).
         nOMNORewardPermille = 24;                                       // profitAcc / (100-6) * 100 * 0.024 (nMNBetReward = Total Profit * 0.024).
         nDevRewardPermille = 6;                                         // profitAcc / (100-6) * 100 * 0.006 (nDevReward = Total Profit * 0.006).
         nOddsDivisor = 10000;                                           // Odds divisor, Facilitates calculations with floating integers.
