@@ -285,7 +285,7 @@ UniValue listbets(const UniValue& params, bool fHelp)
     string strAccount = "*";
     if (params.size() > 0)
         strAccount = params[0].get_str();
-    int nCount = 10;
+    int nCount = 35;
     if (params.size() > 1)
         nCount = params[1].get_int();
     int nFrom = 0;
