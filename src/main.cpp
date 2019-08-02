@@ -4552,6 +4552,7 @@ bool IsTransactionInChain(const uint256& txId, int& nHeightTx)
 bool ContextualCheckBlock(const CBlock& block, CValidationState& state, CBlockIndex* const pindexPrev)
 {
     const int nHeight = pindexPrev == NULL ? 0 : pindexPrev->nHeight + 1;
+    const Consensus::Params& consensusParams = Params().GetConsensus();
 
     // Check that all transactions are finalized
     for (const CTransaction& tx : block.vtx)
@@ -4562,7 +4563,7 @@ bool ContextualCheckBlock(const CBlock& block, CValidationState& state, CBlockIn
     // Enforce block.nVersion=2 rule that the coinbase starts with serialized block height
     // if 750 of the last 1,000 blocks are version 2 or greater (51/100 if testnet):
     if (block.nVersion >= 2 &&
-        CBlockIndex::IsSuperMajority(2, pindexPrev, chainparams.GetConsensus().nMajorityEnforceBlockUpgrade, chainparams.GetConsensus())) {
+        CBlockIndex::IsSuperMajority(2, pindexPrev, consensusParams.nMajorityEnforceBlockUpgrade, consensusParams)) {
         CScript expect = CScript() << nHeight;
         if (block.vtx[0].vin[0].scriptSig.size() < expect.size() ||
             !std::equal(expect.begin(), expect.end(), block.vtx[0].vin[0].scriptSig.begin())) {
