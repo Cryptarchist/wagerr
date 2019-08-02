@@ -120,6 +120,14 @@ public:
     {
         networkID = CBaseChainParams::MAIN;
         strNetworkID = "main";
+        consensus.nSubsidyHalvingInterval = 210000;
+        consensus.nMajorityEnforceBlockUpgrade = 8100;  // 75%
+        consensus.nMajorityRejectBlockOutdated = 10260; // 95%
+        consensus.nMajorityWindow = 10800;              // Approximate expected amount of blocks in 7 days (1440*7.5)
+        consensus.powLimit = ~uint256(0) >> 20;         // Wagerr starting difficulty is 1 / 2^12
+        consensus.nPowTargetTimespan = 1 * 60;          // WAGERR: 1 day
+        consensus.nPowTargetSpacing = 1 * 60;           // WAGERR: 1 minute
+        consensus.fPowAllowMinDifficultyBlocks = false;
         /**
          * The message start string is designed to be unlikely to occur in normal data.
          * The characters are rarely used upper ASCII, not valid as UTF-8, and produce
@@ -131,15 +139,8 @@ public:
         pchMessageStart[3] = 0xfd;
         vAlertPubKey = ParseHex("04300ed6502f7210f8864f1facb2b817f085d5dc7ebf1577dfe14f4fc7ab37d851aa54aa3d2d252823063524750faaf24427ede912bf4958f7b3e63c7cce8dd036");
         nDefaultPort = 55002;
-        bnProofOfWorkLimit = ~uint256(0) >> 20; // Wagerr starting difficulty is 1 / 2^12
-        nSubsidyHalvingInterval = 210000;
         nMaxReorganizationDepth = 100;
-        nEnforceBlockUpgradeMajority = 8100; // 75%
-        nRejectBlockOutdatedMajority = 10260; // 95%
-        nToCheckBlockUpgradeMajority = 10800; // Approximate expected amount of blocks in 7 days (1440*7.5)
         nMinerThreads = 0;
-        nTargetTimespan = 1 * 60;              // WAGERR: 1 day
-        nTargetSpacing = 1 * 60;               // WAGERR: 1 minute
         nMaturity = 100;
         nMasternodeCountDrift = 20;
         nMaxMoneyOut = 398360470 * COIN;
@@ -211,8 +212,8 @@ public:
         genesis.nBits = 0x1e0ffff0;
         genesis.nNonce = 96620932;
 
-        hashGenesisBlock = genesis.GetHash();
-        assert(hashGenesisBlock == uint256("0x000007b9191bc7a17bfb6cedf96a8dacebb5730b498361bf26d44a9f9dcc1079"));
+        consensus.hashGenesisBlock = genesis.GetHash();
+        assert(consensus.hashGenesisBlock == uint256("0x000007b9191bc7a17bfb6cedf96a8dacebb5730b498361bf26d44a9f9dcc1079"));
         assert(genesis.hashMerkleRoot == uint256("0xc4d06cf72583752c23b819fa8d8cededd1dad5733d413ea1f123f98a7db6af13"));
 
         vSeeds.push_back(CDNSSeedData("1", "main.seederv1.wgr.host"));      // Wagerr's official seed 1
@@ -231,7 +232,6 @@ public:
         convertSeed6(vFixedSeeds, pnSeed6_main, ARRAYLEN(pnSeed6_main));
 
         fMiningRequiresPeers = true;
-        fAllowMinDifficultyBlocks = false;
         fDefaultConsistencyChecks = false;
         fRequireStandard = true;
         fMineBlocksOnDemand = false;
@@ -283,6 +283,10 @@ public:
     {
         networkID = CBaseChainParams::TESTNET;
         strNetworkID = "test";
+        consensus.nMajorityEnforceBlockUpgrade = 4320; // 75%
+        consensus.nMajorityRejectBlockOutdated = 5472; // 95%
+        consensus.nMajorityWindow = 5760; // 4 days
+        consensus.fPowAllowMinDifficultyBlocks = true;
         /* 879ed199 */
         pchMessageStart[0] = 0x87;
         pchMessageStart[1] = 0x9e;
@@ -290,9 +294,6 @@ public:
         pchMessageStart[3] = 0x99;
         vAlertPubKey = ParseHex("04b5aa7cd76159c35fb3dab3cf3cab8d93ecb592b2cbea519145e63cfe92110fe0f68d0e5205af01482334256358c070f5658f638e4191aa7298fb435b65216767");
         nDefaultPort = 55004;
-        nEnforceBlockUpgradeMajority = 4320; // 75%
-        nRejectBlockOutdatedMajority = 5472; // 95%
-        nToCheckBlockUpgradeMajority = 5760; // 4 days
         nMinerThreads = 0;
         nTargetTimespan = 1 * 60; // WAGERR: 1 day
         nTargetSpacing = 1 * 60;  // WAGERR: 1 minute
@@ -345,8 +346,8 @@ public:
         genesis.nTime = 1518696182;
         genesis.nNonce = 75183976;
 
-        hashGenesisBlock = genesis.GetHash();
-        assert(hashGenesisBlock == uint256("0x00000fdc268f54ff1368703792dc046b1356e60914c2b5b6348032144bcb2de5"));
+        consensus.hashGenesisBlock = genesis.GetHash();
+        assert(consensus.hashGenesisBlock == uint256("0x00000fdc268f54ff1368703792dc046b1356e60914c2b5b6348032144bcb2de5"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
@@ -366,7 +367,6 @@ public:
         convertSeed6(vFixedSeeds, pnSeed6_test, ARRAYLEN(pnSeed6_test));
 
         fMiningRequiresPeers = true;
-        fAllowMinDifficultyBlocks = true;
         fDefaultConsistencyChecks = false;
         fRequireStandard = true;
         fMineBlocksOnDemand = false;
@@ -399,19 +399,17 @@ public:
     {
         networkID = CBaseChainParams::REGTEST;
         strNetworkID = "regtest";
+        consensus.nSubsidyHalvingInterval = 150;
+        consensus.nMajorityEnforceBlockUpgrade = 750;
+        consensus.nMajorityRejectBlockOutdated = 950;
+        consensus.nMajorityWindow = 1000;
+        consensus.powLimit = ~uint256(0) >> 1;
         pchMessageStart[0] = 0x12;
         pchMessageStart[1] = 0x76;
         pchMessageStart[2] = 0xa1;
         pchMessageStart[3] = 0xfa;
         nDefaultPort = 55006;
-        nSubsidyHalvingInterval = 150;
-        nEnforceBlockUpgradeMajority = 750;
-        nRejectBlockOutdatedMajority = 950;
-        nToCheckBlockUpgradeMajority = 1000;
         nMinerThreads = 1;
-        nTargetTimespan = 24 * 60 * 60; // WAGERR: 1 day
-        nTargetSpacing = 1 * 60;        // WAGERR: 1 minutes
-        bnProofOfWorkLimit = ~uint256(0) >> 1;
         nLastPOWBlock = 250;
         nMaturity = 100;
         nMasternodeCountDrift = 4;
@@ -436,14 +434,13 @@ public:
         genesis.nBits = 0x207fffff;
         genesis.nNonce = 574752;                // hex 57 47 52 in text = WG
 
-        hashGenesisBlock = genesis.GetHash();
-        assert(hashGenesisBlock == uint256("0x671d0510c128608897d98d1819d26b40810c8b7e4901447a909c87a9edc2f5ec"));
+        consensus.hashGenesisBlock = genesis.GetHash();
+        assert(consensus.hashGenesisBlock == uint256("0x671d0510c128608897d98d1819d26b40810c8b7e4901447a909c87a9edc2f5ec"));
 
         vFixedSeeds.clear(); //! Testnet mode doesn't have any fixed seeds.
         vSeeds.clear();      //! Testnet mode doesn't have any DNS seeds.
 
         fMiningRequiresPeers = false;
-        fAllowMinDifficultyBlocks = true;
         fDefaultConsistencyChecks = true;
         fRequireStandard = false;
         fMineBlocksOnDemand = true;

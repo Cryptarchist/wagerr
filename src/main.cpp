@@ -2040,14 +2040,14 @@ double ConvertBitsToDouble(unsigned int nBits)
 
 int64_t GetBlockValue(int nHeight)
 {
-   
+
     if (Params().NetworkID() == CBaseChainParams::REGTEST || Params().NetworkID() == CBaseChainParams::TESTNET) {
         if (nHeight == 0) {
             // Genesis block
             return 0 * COIN;
         } else if (nHeight == 1) {
             /* PREMINE: Current available wagerr on DEX marketc 198360471 wagerr
-            Info abobut premine: 
+            Info abobut premine:
             Full premine size is 198360471. First 100 blocks mine 250000 wagerr per block - 198360471 - (100 * 250000) = 173360471
             */
             // 87.4 % of premine
@@ -2056,7 +2056,7 @@ int64_t GetBlockValue(int nHeight)
             return 250000 * COIN;
         } else if (nHeight >= 200 && nHeight <= Params().LAST_POW_BLOCK()) {
             return 100000 * COIN;
-        } else if (nHeight > Params().LAST_POW_BLOCK() && nHeight <= Params().Zerocoin_Block_V2_Start()) { 
+        } else if (nHeight > Params().LAST_POW_BLOCK() && nHeight <= Params().Zerocoin_Block_V2_Start()) {
             return 3.8 / 90 * 100 * COIN;
         } else if (nHeight > Params().Zerocoin_Block_V2_Start()) {
             return 3.8 * COIN;
@@ -2065,7 +2065,7 @@ int64_t GetBlockValue(int nHeight)
         }
     }
 
-    
+
     // MAIN
     int64_t nSubsidy = 0;
     if (nHeight == 0) {
@@ -2073,7 +2073,7 @@ int64_t GetBlockValue(int nHeight)
         nSubsidy = 0 * COIN;
     } else if (nHeight == 1) {
         /* PREMINE: Current available wagerr on DEX marketc 198360471 wagerr
-        Info abobut premine: 
+        Info abobut premine:
         Full premine size is 198360471. First 100 blocks mine 250000 wagerr per block - 198360471 - (100 * 250000) = 173360471
         */
         // 87.4 % of premine
@@ -2816,7 +2816,7 @@ bool RecalculateWGRSupply(int nHeightStart)
     CAmount nSupplyPrev = pindex->pprev->nMoneySupply;
      if (nHeightStart == Params().Zerocoin_StartHeight())
          nSupplyPrev = CAmount(5449796547496199);
- 
+
     uiInterface.ShowProgress(_("Recalculating WGR supply..."), 0);
     while (true) {
         if (pindex->nHeight % 1000 == 0) {
@@ -3246,7 +3246,7 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     CAmount nMoneySupplyPrev = pindex->pprev ? pindex->pprev->nMoneySupply : 0;
     pindex->nMoneySupply = nMoneySupplyPrev + nValueOut - nValueIn;
     pindex->nMint = pindex->nMoneySupply - nMoneySupplyPrev + nFees;
-    
+
     // adjust MoneySupply to account for WGR bet/burned, after first calculating actual Mint (pindex->nMint above)
     if (pindex->nHeight >= Params().BetStartHeight() ) {
         pindex->nMoneySupply = nMoneySupplyPrev + nValueOut - nValueIn - nValueBurned;
@@ -4252,7 +4252,7 @@ bool FindUndoPos(CValidationState& state, int nFile, CDiskBlockPos& pos, unsigne
 bool CheckBlockHeader(const CBlockHeader& block, CValidationState& state, bool fCheckPOW)
 {
     // Check proof of work matches claimed amount
-    if (fCheckPOW && !CheckProofOfWork(block.GetHash(), block.nBits))
+    if (fCheckPOW && !CheckProofOfWork(block.GetHash(), block.nBits, Params().GetConsensus()))
         return state.DoS(50, error("CheckBlockHeader() : proof of work failed"),
             REJECT_INVALID, "high-hash");
 
@@ -4472,7 +4472,7 @@ bool ContextualCheckBlockHeader(const CBlockHeader& block, CValidationState& sta
 
     int nHeight = pindexPrev->nHeight + 1;
 
-    if ((Params().NetworkIDString() == "regtest") && block.nBits != GetNextWorkRequired(pindexPrev, &block))
+    if ((Params().NetworkIDString() == "regtest") && block.nBits != GetNextWorkRequired(pindexPrev, &block, Params().GetConsensus()))
         return state.DoS(100, error("%s : incorrect proof of work", __func__),
                 REJECT_INVALID, "bad-diffbits");
 
