@@ -54,9 +54,6 @@ public:
     int GetDefaultPort() const { return nDefaultPort; }
     const uint256& ProofOfWorkLimit() const { return consensus.powLimit; }
     int SubsidyHalvingInterval() const { return consensus.nSubsidyHalvingInterval; }
-    int EnforceBlockUpgradeMajority() const { return consensus.nMajorityEnforceBlockUpgrade; }
-    int RejectBlockOutdatedMajority() const { return consensus.nMajorityRejectBlockOutdated; }
-    int ToCheckBlockUpgradeMajority() const { return consensus.nMajorityWindow; }
     int MaxReorganizationDepth() const { return nMaxReorganizationDepth; }
 
     /** Used if GenerateBitcoins is called with a negative number of threads */
