@@ -1389,7 +1389,7 @@ CAmount GetMinRelayFee(const CTransaction& tx, unsigned int nBytes, bool fAllowF
 
 bool AcceptToMemoryPool(CTxMemPool& pool, CValidationState& state, const CTransaction& tx, bool fLimitFree, bool* pfMissingInputs, bool fRejectInsaneFee, bool ignoreFees)
 {
-    const CChainParams& chainParams = Params();
+    const CChainParams& chainparams = Params();
 
     AssertLockHeld(cs_main);
     if (pfMissingInputs)
@@ -1677,7 +1677,7 @@ bool AcceptToMemoryPool(CTxMemPool& pool, CValidationState& state, const CTransa
 
 bool AcceptableInputs(CTxMemPool& pool, CValidationState& state, const CTransaction& tx, bool fLimitFree, bool* pfMissingInputs, bool fRejectInsaneFee, bool isDSTX)
 {
-    const CChainParams& chainParams = Params();
+    const CChainParams& chainparams = Params();
 
     AssertLockHeld(cs_main);
     if (pfMissingInputs)
@@ -3019,7 +3019,7 @@ static int64_t nTimeTotal = 0;
 
 bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pindex, CCoinsViewCache& view, bool fJustCheck, bool fAlreadyChecked)
 {
-    const CChainParams& chainParams = Params();
+    const CChainParams& chainparams = Params();
 
     AssertLockHeld(cs_main);
     // Check it again in case a previous version let a bad block in
