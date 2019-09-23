@@ -101,30 +101,7 @@ UniValue getmappingid(const UniValue& params, bool fHelp)
 
     // If no mapping found then create a new one and add to the given map index.
     if (!mappingFound) {
-        CMapping cm;
-        cm.nMType = type;
-        cm.nId = nFirstIndexFree;
-        cm.sName = name;
-        cm.nVersion = 1;
-
-        CMappingDB cmdb;
-
-        if (mIndex == "sports") {
-            cmdb.AddSport(cm);
-        }
-        else if (mIndex == "rounds") {
-            cmdb.AddRound(cm);
-        }
-        else if (mIndex == "teamnames") {
-            cmdb.AddTeam(cm);
-        }
-        else if (mIndex == "tournaments") {
-            cmdb.AddTournament(cm);
-        }
-
-        mapping.push_back(Pair("mapping-id",  (uint64_t) nFirstIndexFree));
-        mapping.push_back(Pair("exists", false));
-        mapping.push_back(Pair("mapping-index", mIndex));
+        throw std::runtime_error("Currently no mapping index exists for the mapping index you provided.");
     }
 
     ret.push_back(mapping);
