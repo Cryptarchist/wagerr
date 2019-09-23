@@ -197,7 +197,7 @@ UniValue getmappingname(const UniValue& params, bool fHelp)
  * @return
  */
 UniValue getmappingjson(const UniValue &params, bool fHelp) {
-    if (fHelp || (params.size() < 2))
+    if (fHelp || (params.size() < 1))
         throw std::runtime_error(
                 "getmappingjson\n"
                 "\nGet a mapping array from the specified map index.\n"
@@ -242,6 +242,7 @@ UniValue getmappingjson(const UniValue &params, bool fHelp) {
     std::map<uint32_t, CMapping>::iterator it;
     for (it = mappingIndex.begin(); it != mappingIndex.end(); it++) {
         UniValue mapping(UniValue::VOBJ);
+        mapping.push_back(Pair("mapping-id", (uint64_t) it->second.nId));
         mapping.push_back(Pair("mapping-name", it->second.sName));
         mapping.push_back(Pair("exists", true));
         mapping.push_back(Pair("mapping-index", mIndex));
