@@ -398,6 +398,7 @@ static const CRPCCommand vRPCCommands[] =
         {"wagerr", "geteventsliability", &geteventsliability, false, false, true},
         {"wagerr", "getmappingid", &getmappingid, false, false, true},
         {"wagerr", "getmappingname", &getmappingname, false, false, true},
+        {"wagerr", "getmappingjson", &getmappingjson, false, false, true},
 
 
 #ifdef ENABLE_WALLET

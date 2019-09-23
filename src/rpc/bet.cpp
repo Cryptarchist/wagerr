@@ -210,3 +210,65 @@ UniValue getmappingname(const UniValue& params, bool fHelp)
 
     return ret;
 }
+
+/**
+ * Display mapping in json object array
+ * If its not found return an error message.
+ *
+ * @param params The RPC params consisting of an map index name.
+ * @param fHelp  Help text
+ * @return
+ */
+UniValue getmappingjson(const UniValue &params, bool fHelp) {
+    if (fHelp || (params.size() < 2))
+        throw std::runtime_error(
+                "getmappingjson\n"
+                "\nGet a mapping array from the specified map index.\n"
+
+                "\nResult:\n"
+                "[\n"
+                "  {\n"
+                "    \"mapping name\": \"xxx\",  (string) The mapping name.\n"
+                "    \"exists\": \"xxx\", (boolean) mapping transaction created or not\n"
+                "    \"mapping-index\": \"xxx\" (string) The index that was searched.\n"
+                "  }\n"
+                "]\n"
+
+                "\nExamples:\n" +
+                HelpExampleCli("getmappingjson", "") + HelpExampleRpc("getmappingjson", ""));
+
+    std::string mIndex = params[0].get_str();
+
+    mappingIndex_t mappingIndex;
+    CMappingDB cmdb;
+
+    UniValue ret(UniValue::VARR);
+
+    // Select the map we want to look up based on user input.
+    if (mIndex == "sports") {
+        CMappingDB cmdb("sports.dat");
+        cmdb.GetSports(mappingIndex);
+    } else if (mIndex == "rounds") {
+        CMappingDB cmdb("rounds.dat");
+        cmdb.GetRounds(mappingIndex);
+    } else if (mIndex == "teamnames") {
+        CMappingDB cmdb("teams.dat");
+        cmdb.GetTeams(mappingIndex);
+    } else if (mIndex == "tournaments") {
+        CMappingDB cmdb("tournaments.dat");
+        cmdb.GetTournaments(mappingIndex);
+    } else {
+        throw std::runtime_error("Currently no mapping index exists for the mapping index you provided.");
+    }
+
+    // Check the map for the mapping ID.
+    std::map<uint32_t, CMapping>::iterator it;
+    for (it = mappingIndex.begin(); it != mappingIndex.end(); it++) {
+        UniValue mapping(UniValue::VOBJ);
+        mapping.push_back(Pair("mapping-name", it->second.sName));
+        mapping.push_back(Pair("exists", true));
+        mapping.push_back(Pair("mapping-index", mIndex));
+        ret.push_back(mapping);
+    }
+    return ret;
+}
