@@ -341,7 +341,7 @@ public:
         nPublicZCSpends = 600;
 
         /** Bet related parameters **/
-        nBetStartHeight = 3001;                                         // The block that betting protocols become active (Testnet).
+        nBetStartHeight = 1100;                                         // The block that betting protocols become active (Testnet).
         vOracleWalletAddrs = {"TGFKr64W3tTMLZrKBhMAou9wnQmdNMrSG2",     // Oracle Masternode Event & Result Posting Wallet Address (Testnet).
                               "TWM5BQzfjDkBLGbcDtydfuNcuPfzPVSEhc" };
         nBetBlocksIndexTimespan = 23040;                                // Currently checking back 2 weeks for events and bets for each result. (With approx. 2 days buffer).
@@ -355,7 +355,7 @@ public:
         nMaxParlayBetPayoutRange = 4000;                                // Minimizes maximum parlay payout size to avoid unnecessary large numbers (Only payout parlay bets that are between 25 - 4000 WRG inclusive).
         nBetPlaceTimeoutBlocks = 120;                                   // Discard bets placed less than 120 seconds (approx. 2 mins) before event start time,
         nMaxParlayLegs = 5;                                             // Minimizes maximum legs in parlay bet
-        nWagerrProtocolV3StartHeight = 3300;                          // TODO: pick block height for enabling parlay betting and new payout system
+        nWagerrProtocolV3StartHeight = 2000;                          // TODO: pick block height for enabling parlay betting and new payout system
 
         // Fake Serial Attack
         nFakeSerialBlockheightEnd = -1;
